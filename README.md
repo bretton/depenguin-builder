@@ -37,16 +37,15 @@ You can edit the file `customfiles/depenguin_packages.txt` if you have additiona
 Beware file size of resulting image is a potential concern, see mfsBSD documentation.
 
 ### Configure variables in build script
-Optionally configure variables in `build.sh`, such as output filename and
-source files.
+Optionally configure variables in `build.sh`, such as output filename and source files.
 
 ### Run the build script
 When ready, run `build.sh` with flags.
 
-> First-time script is run will download a FreeBSD install cd at 750MiB!
+> First-time script is run will download a FreeBSD install cd at 750MiB, or over 4Gb for FreeBSD 15.0
 
 To build the basic setup and upload to your remote destination:
 
-    ./build.sh -u 14.3
+    ./build.sh -u 14.4
 
 End of File
