@@ -20,6 +20,7 @@
 # 2025-10-16: Fix issue with realtek network drivers on 14.3
 # 2025-12-03: Add options for AX102 server tweaks in customfiles dir
 # 2025-12-08: Add support for 15.0 release, uses the DVD install media not CD, reduce disk space check to 5 GB
+# 2026-03-22: Add support for 14.4 release
 
 # this script must be run as root
 if [ "$EUID" -ne 0 ]; then
@@ -50,7 +51,7 @@ usage() {
 	-k /path/to/authorized_keys (can safely ignore, another opportunity to copy
 	   in SSH keys on image boot!)
 
-	version (valid values are 13.2, 13.4, 13.5, 14.0, 14.1, 14.2, 14.3, or 15.0)
+	version (valid values are 13.2, 13.4, 13.5, 14.0, 14.1, 14.2, 14.3, 14.4, or 15.0)
 	EOF
 }
 
@@ -84,7 +85,7 @@ do
 done
 shift "$((OPTIND-1))"
 
-# arg1 needs to be 13.2, 13.4, 13.5, 14.0, 14.1, 14.2, 14.3, 15.0 currently
+# arg1 needs to be 13.2, 13.4, 13.5, 14.0, 14.1, 14.2, 14.3, 14.4, 15.0 currently
 RELEASE="$1"
 
 # Determine the release to use and set specific variables, or provide an error notice
@@ -145,6 +146,14 @@ case $RELEASE in
 		MYRELEASE="14.3-RELEASE"
 		MYVERSION="14.3"
 		;;
+	14.4)
+		FREEBSDISOSRC="https://download.freebsd.org/releases/amd64/amd64/ISO-IMAGES/14.4/FreeBSD-14.4-RELEASE-amd64-disc1.iso.xz"
+		# See https://www.freebsd.org/releases/14.4R/checksums/CHECKSUM.SHA256-FreeBSD-14.4-RELEASE-amd64.asc for SHA256 of ISO file, not iso.xz
+		FREEBSDISOSHA256="ade3d84e77fc601d1207ced8d6dd8952c3fb7685afa3cf6b6b44d76ed94b2d8e"
+		FREEBSDISOFILE="FreeBSD-14.4-RELEASE-amd64-disc1.iso"
+		MYRELEASE="14.4-RELEASE"
+		MYVERSION="14.4"
+		;;
 	15.0)
 		FREEBSDISOSRC="https://download.freebsd.org/releases/amd64/amd64/ISO-IMAGES/15.0/FreeBSD-15.0-RELEASE-amd64-dvd1.iso"
 		# See https://www.freebsd.org/releases/15.0R/checksums/CHECKSUM.SHA256-FreeBSD-15.0-RELEASE-amd64.asc for SHA256 of ISO file, not iso.xz
@@ -154,7 +163,7 @@ case $RELEASE in
 		MYVERSION="15.0"
 		;;
 	*)
-		echo "Invalid version specified. Use 13.2, 13.4, 13.5, 14.0, 14.1, 14.2, 14.3, or 15.0."
+		echo "Invalid version specified. Use 13.2, 13.4, 13.5, 14.0, 14.1, 14.2, 14.3, 14.4 or 15.0."
 		exit_error "$(usage)"
 		;;
 esac
